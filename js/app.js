@@ -270,15 +270,15 @@ let taxes = {
     },
 }
 
-$('#calculator').on('submit', function (e) { // Realiza o cálculo da remuneração
+$('#calculator').on('submit', function (e) {
     e.preventDefault()
     if (!this.checkValidity()) {
         e.stopPropagation()
     } else {
-        let sons = $('#number-sons').val(), family = 0, inss = {taxe: 14, discount: 0}, irrf = {taxe: 0, discount: 0}
+        let sons = $('#number-sons').val(), family = 0, income = 0, inss, irrf
         let taxe = $('input[name="taxe"]:checked').val(), value = {}
         const locale = $('input[name="locale"]:checked').val()
-        let units = parseInt($('#units-confirmed').val()) + parseInt($('#units-changed').val()), income = 0
+        let units = parseInt($('#units-confirmed').val()) + parseInt($('#units-changed').val())
         units +=  parseInt($('#units-included').val())
         const quiz = {
             basic: parseInt($('#quiz-basic').val()),
@@ -288,66 +288,93 @@ $('#calculator').on('submit', function (e) { // Realiza o cálculo da remuneraç
             basic: parseInt($('#people-basic').val()),
             sample: parseInt($('#people-sample').val())
         }
+
         taxe = taxes[taxe][locale]
+
         value.units = units * taxe.unit
         value.quiz =  quiz.basic * taxe.basic.quiz + quiz.sample * taxe.sample.quiz
         value.people = people.basic * taxe.basic.people + people.sample * taxe.sample.people
+
         income += value.units + value.quiz + value.people
+
         $('#units').html(units)
         $('#quiz').html(quiz.basic + quiz.sample)
         $('#people').html(people.basic + people.sample)
-        $('#units-value').html(value.units.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
-        $('#quiz-value').html(value.quiz.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
-        $('#people-value').html(value.people.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
+
+        $('#units-value').html(currency(value.units))
+        $('#quiz-value').html(currency(value.quiz))
+        $('#people-value').html(currency(value.people))
 
         if (income <= 1655.98 && income > 0){
             $('#quantity-sons').html(sons)
             family = sons * 56.47
         } else $('#family-salary').html('Salário fora da faixa contemplada!')
-        $('#family-salary-value').html(family.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
 
-        if (income <= 1212) inss.taxe = 7.5
-        else if (income <= 2427.35) inss.taxe = 9
-        else if (income <= 3641.03) inss.taxe = 12
-        else if (income <= 7087.22) inss.taxe = 14
-        else inss.discount = 7087.22 / 100 * 14
-        if (inss.discount === 0) inss.discount -= income / 100 * inss.taxe
+        $('#family-salary-value').html(currency(family))
+
+        inss = calcINSS(income)
 
         $('#percent-inss').html(inss.taxe.toLocaleString('pt-br'))
-        $('#inss-value').html(inss.discount.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
+        $('#inss-value').html(currency(inss.discount))
 
         income += inss.discount
 
-        if (income <= 1903.98) irrf.taxe = 0
-        else if (income <= 2826.65){
-            irrf.taxe = 7.5
-            irrf.discount = 142.80
-        }
-        else if(income <= 3751.05){
-            irrf.taxe = 15
-            irrf.discount = 354.80
-        }
-        else if(income <= 4664.68){
-            irrf.taxe = 22.5
-            irrf.discount = 636.13
-        }
-        else{
-            irrf.taxe = 27.5
-            irrf.discount = 869.36
-        }
-
-        irrf.discount -= income / 100 * irrf.taxe
+        irrf = calcIRRF(income)
 
         $('#percent-irrf').html(irrf.taxe.toLocaleString('pt-br'))
-        $('#irrf-value').html(irrf.discount.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
+        $('#irrf-value').html(currency(irrf.discount))
 
         income += irrf.discount
         income += family
 
-        $('#income-value').html(income.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'}))
+        $('#income-value').html(currency(income))
         $('#income').removeClass('d-none')
+
         window.location.href = '#income'
     }
 
     $(this).addClass('was-validated')
 })
+
+function currency(number){
+    return number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
+}
+
+function calcINSS(income){
+    let inss = {taxe: 14, discount: 0}
+
+    if (income <= 1212) inss.taxe = 7.5
+    else if (income <= 2427.35) inss.taxe = 9
+    else if (income <= 3641.03) inss.taxe = 12
+    else if (income <= 7087.22) inss.taxe = 14
+    else inss.discount = 7087.22 / 100 * 14
+    if (inss.discount === 0) inss.discount -= income / 100 * inss.taxe
+
+    return inss
+}
+
+function calcIRRF(income){
+    let irrf = {taxe: 0, discount: 0}
+
+    if (income <= 1903.98) irrf.taxe = 0
+    else if (income <= 2826.65){
+        irrf.taxe = 7.5
+        irrf.discount = 142.80
+    }
+    else if(income <= 3751.05){
+        irrf.taxe = 15
+        irrf.discount = 354.80
+    }
+    else if(income <= 4664.68){
+        irrf.taxe = 22.5
+        irrf.discount = 636.13
+    }
+    else{
+        irrf.taxe = 27.5
+        irrf.discount = 869.36
+    }
+
+    irrf.discount -= income / 100 * irrf.taxe
+
+    return irrf
+}
