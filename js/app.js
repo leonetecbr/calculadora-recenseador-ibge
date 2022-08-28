@@ -8,8 +8,12 @@ popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
 
-if (!window.matchMedia('(prefers-color-scheme: dark)').matches){
-    changeTheme()
+const btnChange = $('#change-mode')
+let darkMode = localStorage.getItem('prefer'), mode = true
+if (darkMode !== null) darkMode = (darkMode === 'true')
+
+if ((window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) || (darkMode !== null && !darkMode)){
+    changeTheme(false)
 }
 
 let taxes = {
@@ -345,6 +349,10 @@ $('#calculator').on('submit', function (e) {
     $(this).addClass('was-validated')
 })
 
+btnChange.on('click', () => {
+    changeTheme()
+})
+
 function currency(number){
     return number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
 }
@@ -388,13 +396,31 @@ function calcIRRF(income){
     return irrf
 }
 
-function changeTheme(){
-    $('.form-control').removeClass('form-control-dark')
-    $('.form-check-input').removeClass('form-check-dark')
-    $('body').removeClass('bg-black').removeClass('text-gray').addClass('bg-light')
-    $('.shadow-sm').removeClass('bg-dark').addClass('bg-white')
-    $('.list-group-item').removeClass('bg-dark').removeClass('text-gray')
-    $('#income').removeClass('text-gray')
-    $('.btn').removeClass('btn-dark').addClass('btn-secondary')
-    $('.dark-mode').removeClass('bg-dark')
+function changeTheme(click = true){
+    mode = !mode
+    if (mode) {
+        $('.form-control').addClass('form-control-dark')
+        $('.form-check-input').addClass('form-check-dark')
+        $('body').addClass('bg-black').addClass('text-gray').removeClass('bg-light')
+        $('.shadow-sm').addClass('bg-dark').removeClass('bg-white')
+        $('.list-group-item').addClass('bg-dark').addClass('text-gray')
+        $('#income').addClass('text-gray')
+        $('.btn').addClass('btn-dark').removeClass('btn-secondary')
+        $('.dark-mode').addClass('bg-dark')
+        btnChange.removeClass('bg-white')
+        $('.bi-moon').addClass('bi-sun').removeClass('bi-moon')
+        if (click) localStorage.setItem('prefer', true)
+    } else{
+        $('.form-control').removeClass('form-control-dark')
+        $('.form-check-input').removeClass('form-check-dark')
+        $('body').removeClass('bg-black').removeClass('text-gray').addClass('bg-light')
+        $('.shadow-sm').removeClass('bg-dark').addClass('bg-white')
+        $('.list-group-item').removeClass('bg-dark').removeClass('text-gray')
+        $('#income').removeClass('text-gray')
+        $('.btn').removeClass('btn-dark').addClass('btn-secondary')
+        $('.dark-mode').removeClass('bg-dark')
+        btnChange.addClass('bg-white')
+        $('.bi-sun').addClass('bi-moon').removeClass('bi-sun')
+        if (click) localStorage.setItem('prefer', false)
+    }
 }
