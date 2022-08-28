@@ -16,14 +16,34 @@
           name="description"/>
     <meta content="Permite o cálculo da sua remuneração de forma precisa com todos os benefícios e descontos. Calcule agora mesmo!"
           name="og:description"/>
+    <style>
+        .form-control-dark, .form-check-dark,
+        .form-control-dark:active .form-control-dark:active, .form-check-dark:focus, .form-control-dark:focus{
+            background-color: var(--bs-dark);
+            color: var(--bs-light);
+            border-color: rgba(255, 255, 255, .15);
+        }
+
+        .form-control-dark:focus{
+            border-color: rgba(255, 255, 255, .3);
+        }
+
+        .text-gray{
+            color: var(--bs-gray-200);
+        }
+
+        .w-56{
+            width: 56px;
+        }
+    </style>
 </head>
-<body class="pt-3 px-2 d-flex flex-column min-vh-100 bg-light">
-    <header class="d-flex justify-content-center py-3 mb-3 border-bottom">
+<body class="d-flex flex-column min-vh-100 bg-black text-gray">
+    <header class="d-flex justify-content-center py-3 mb-3 border-bottom bg-dark dark-mode">
         <h1 class="fs-3 text-center">Calculadora - Remuneração recenseador</h1>
     </header>
-    <main class="container mb-3">
+    <main class="container mb-3 px-2">
         <form id="calculator" novalidate>
-                <div class="shadow-sm rounded bg-white px-3 py-4">
+                <div class="shadow-sm rounded bg-dark px-3 py-4">
                     <div class="title pb-1 border-bottom">
                         <h2>
                             Andamento do setor
@@ -44,19 +64,19 @@
                         <div class="d-sm-flex justify-content-around col-7 mx-auto col-sm-auto col-lg-9">
                             <div class="col-sm-3">
                                 <label for="units-confirmed">Confirmadas</label>
-                                <input type="number" class="form-control" id="units-confirmed" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="units-confirmed" min="0" required
                                        placeholder="Unidades confirmadas">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
                             <div class="col-sm-3">
                                 <label for="units-included">Incluídas</label>
-                                <input type="number" class="form-control" id="units-included" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="units-included" min="0" required
                                        placeholder="Unidades incluídas">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
                             <div class="col-sm-3">
                                 <label for="units-changed">Alteradas</label>
-                                <input type="number" class="form-control" id="units-changed" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="units-changed" min="0" required
                                        placeholder="Unidades alteradas">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
@@ -71,13 +91,13 @@
                         <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
                             <div class="col-5">
                                 <label for="quiz-basic">Básico</label>
-                                <input type="number" class="form-control" id="quiz-basic" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="quiz-basic" min="0" required
                                        placeholder="Questionários básicos">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
                             <div class="col-5">
                                 <label for="quiz-sample">Amostra</label>
-                                <input type="number" class="form-control" id="quiz-sample" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="quiz-sample" min="0" required
                                        placeholder="Questionários amostra">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
@@ -92,20 +112,20 @@
                         <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
                             <div class="col-5">
                                 <label for="people-basic">Básico</label>
-                                <input type="number" class="form-control" id="people-basic" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="people-basic" min="0" required
                                        placeholder="Pessoas básico">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
                             <div class="col-5">
                                 <label for="people-sample">Amostra</label>
-                                <input type="number" class="form-control" id="people-sample" min="0" required
+                                <input type="number" class="form-control form-control-dark" id="people-sample" min="0" required
                                        placeholder="Pessoas Amostra">
                                 <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="shadow-sm rounded bg-white px-3 py-4 mt-4">
+                <div class="shadow-sm rounded bg-dark px-3 py-4 mt-4">
                     <div class="title pb-1 border-bottom">
                         <h2>Detalhes do setor</h2>
                     </div>
@@ -113,11 +133,11 @@
                         <h3 class="text-center mt-3 mb-0">Localização</h3>
                         <div class="d-flex justify-content-center mt-3">
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="locale" id="locale-urban" class="form-check-input" value="urban" required>
+                                <input type="radio" name="locale" id="locale-urban" class="form-check-input form-check-dark" value="urban" required>
                                 <label for="locale-urban" class="form-check-label">Urbano</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="locale" id="locale-rural" class="form-check-input" value="rural" required>
+                                <input type="radio" name="locale" id="locale-rural" class="form-check-input form-check-dark" value="rural" required>
                                 <label for="locale-rural" class="form-check-label">Rural ou PCT
                                     <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
                                          title="Povos e Comunidades Tradicionais (aldeias indígenas e comunidades quilombolas).">
@@ -134,55 +154,55 @@
                         </h3>
                         <div class="d-flex justify-content-center">
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-1" class="form-check-input" value=1 required>
+                                <input type="radio" name="taxe" id="taxe-1" class="form-check-input form-check-dark" value=1 required>
                                 <label for="taxe-1" class="form-check-label">1</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-2" class="form-check-input" value=2 required>
+                                <input type="radio" name="taxe" id="taxe-2" class="form-check-input form-check-dark" value=2 required>
                                 <label for="taxe-2" class="form-check-label">2</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-3" class="form-check-input" value=3 required>
+                                <input type="radio" name="taxe" id="taxe-3" class="form-check-input form-check-dark" value=3 required>
                                 <label for="taxe-3" class="form-check-label">3</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-4" class="form-check-input" value=4 required>
+                                <input type="radio" name="taxe" id="taxe-4" class="form-check-input form-check-dark" value=4 required>
                                 <label for="taxe-4" class="form-check-label">4</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-5" class="form-check-input" value=5 required>
+                                <input type="radio" name="taxe" id="taxe-5" class="form-check-input form-check-dark" value=5 required>
                                 <label for="taxe-5" class="form-check-label">5</label>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center mt-3">
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-6" class="form-check-input" value=6 required>
+                                <input type="radio" name="taxe" id="taxe-6" class="form-check-input form-check-dark" value=6 required>
                                 <label for="taxe-6" class="form-check-label">6</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-7" class="form-check-input" value=7 required>
+                                <input type="radio" name="taxe" id="taxe-7" class="form-check-input form-check-dark" value=7 required>
                                 <label for="taxe-7" class="form-check-label">7</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-8" class="form-check-input" value=8 required>
+                                <input type="radio" name="taxe" id="taxe-8" class="form-check-input form-check-dark" value=8 required>
                                 <label for="taxe-8" class="form-check-label">8</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-9" class="form-check-input" value=9 required>
+                                <input type="radio" name="taxe" id="taxe-9" class="form-check-input form-check-dark" value=9 required>
                                 <label for="taxe-9" class="form-check-label">9</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-10" class="form-check-input" value=10 required>
+                                <input type="radio" name="taxe" id="taxe-10" class="form-check-input form-check-dark" value=10 required>
                                 <label for="taxe-10" class="form-check-label">10</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" name="taxe" id="taxe-11" class="form-check-input" value=11 required>
+                                <input type="radio" name="taxe" id="taxe-11" class="form-check-input form-check-dark" value=11 required>
                                 <label for="taxe-11" class="form-check-label">11</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="shadow-sm rounded bg-white px-3 py-4 mt-4">
+                <div class="shadow-sm rounded bg-dark px-3 py-4 mt-4">
                     <div class="title pb-1 border-bottom">
                         <h2>Benefícios</h2>
                     </div>
@@ -190,67 +210,67 @@
                         <h3 class="text-center my-3">Salário família</h3>
                         <div class="col-5 mx-auto">
                             <label for="number-sons">Filhos até 14 anos</label>
-                            <input type="number" class="form-control" id="number-sons" min="0" value="0" required>
+                            <input type="number" class="form-control form-control-dark" id="number-sons" min="0" value="0" required>
                         </div>
                     </div>
                 </div>
-            <div class="row mt-4 pt-4 d-none" id="income">
+            <div class="row mt-4 pt-4 d-none text-gray" id="income">
                 <h3 class="mb-3">A receber</h3>
                 <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0"><span id="units">0</span> unidades visitadas</h6>
                             <small class="text-muted">Todas unidades confirmadas, alteradas ou incluídas.</small>
                         </div>
                         <span class="text-muted" id="units-value">R$ 0</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0"><span id="quiz">0</span> questionários</h6>
                             <small class="text-muted">Todos os questionários, básicos e de amostra.</small>
                         </div>
                         <span class="text-muted" id="quiz-value">R$ 0</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0"><span id="people">0</span> pessoas</h6>
                             <small class="text-muted">Todas as pessoas recenseadas.</small>
                         </div>
                         <span class="text-muted" id="people-value">R$ 0</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
+                    <li class="list-group-item bg-dark text-gray list-group-item-success d-flex justify-content-between">
+                        <div>
                             <h6 class="my-0">Salário família</h6>
-                            <small  id="family-salary"><span id="quantity-sons">0</span> filhos</small>
+                            <small class="text-success" id="family-salary"><span id="quantity-sons">0</span> filhos</small>
                         </div>
                         <span class="text-success" id="family-salary-value">+ R$ 0</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-danger">
+                    <li class="list-group-item bg-dark text-gray list-group-item-danger d-flex justify-content-between">
+                        <div>
                             <h6 class="my-0">INSS</h6>
-                            <small><span id="percent-inss">0</span>%</small>
+                            <small class="text-danger"><span id="percent-inss">0</span>%</small>
                         </div>
                         <span class="text-danger" id="inss-value">− R$ 0</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-danger">
+                    <li class="list-group-item bg-dark text-gray list-group-item-danger d-flex justify-content-between">
+                        <div>
                             <h6 class="my-0">IRRF</h6>
-                            <small><span id="percent-irrf">0</span>%</small>
+                            <small class="text-danger"><span id="percent-irrf">0</span>%</small>
                         </div>
                         <span class="text-danger" id="irrf-value">− R$ 0</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between">
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between">
                         <span>Total</span>
                         <strong id="income-value">R$20</strong>
                     </li>
                 </ul>
             </div>
             <div class="d-grid col-7 mx-auto mt-3">
-                <button class="btn btn-secondary btn-lg">Calcular</button>
+                <button class="btn btn-dark btn-lg">Calcular</button>
             </div>
         </form>
     </main>
-    <footer class="container-fluid border-top text-center pt-3 fw-light mt-auto">
+    <footer class="container-fluid border-top text-center pt-3 fw-light mt-auto bg-dark dark-mode">
         <div>
             &copy; 2022 - Leone Oliveira
         </div>
@@ -272,6 +292,6 @@
     </footer>
     <script src="/apps/ibge/js/jquery.min.js"></script>
     <script src="/apps/ibge/js/bootstrap.bundle.min.js"></script>
-    <script defer src="/apps/ibge/js/app.min.js"></script>
+    <script defer src="/apps/ibge/js/app.js"></script>
 </body>
 </html>

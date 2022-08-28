@@ -8,6 +8,10 @@ popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
 
+if (!window.matchMedia('(prefers-color-scheme: dark)').matches){
+    changeTheme()
+}
+
 let taxes = {
     1: {
         urban: {
@@ -382,4 +386,15 @@ function calcIRRF(income){
     irrf.discount -= income / 100 * irrf.taxe
 
     return irrf
+}
+
+function changeTheme(){
+    $('.form-control').removeClass('form-control-dark')
+    $('.form-check-input').removeClass('form-check-dark')
+    $('body').removeClass('bg-black').removeClass('text-gray').addClass('bg-light')
+    $('.shadow-sm').removeClass('bg-dark').addClass('bg-white')
+    $('.list-group-item').removeClass('bg-dark').removeClass('text-gray')
+    $('#income').removeClass('text-gray')
+    $('.btn').removeClass('btn-dark').addClass('btn-secondary')
+    $('.dark-mode').removeClass('bg-dark')
 }
