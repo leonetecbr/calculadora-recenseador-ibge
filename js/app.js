@@ -361,11 +361,21 @@ function calcINSS(income){
     let inss = {taxe: 14, discount: 0}
 
     if (income <= 1212) inss.taxe = 7.5
-    else if (income <= 2427.35) inss.taxe = 9
-    else if (income <= 3641.03) inss.taxe = 12
-    else if (income <= 7087.22) inss.taxe = 14
-    else inss.discount = 7087.22 / 100 * 14
-    if (inss.discount === 0) inss.discount -= income / 100 * inss.taxe
+    else if (income <= 2427.35){
+        inss.taxe = 9
+        inss.discount = 18.18
+    }
+    else if (income <= 3641.03){
+        inss.taxe = 12
+        inss.discount = 91.01
+    }
+    else if (income <= 7087.22){
+        inss.taxe = 14
+        inss.discount = 163
+    }
+    else inss.discount =  163 - 7087.22 * 0.14
+
+    if (income <= 7087.22) inss.discount -= income / 100 * inss.taxe
 
     return inss
 }
