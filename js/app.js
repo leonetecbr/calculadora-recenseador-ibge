@@ -8,7 +8,7 @@ popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
 
-const btnChange = $('#change-mode')
+const btnChange = $('#change-mode'), quizBasic = $('#quiz-basic'), quizSample = $('#quiz-sample')
 let darkMode = localStorage.getItem('prefer'), mode = true
 if (darkMode !== null) darkMode = (darkMode === 'true')
 
@@ -294,7 +294,7 @@ $('#calculator').on('submit', function (e) {
         let units = parseInt($('#units-confirmed').val()) + parseInt($('#units-changed').val())
         units +=  parseInt($('#units-included').val())
         const quiz = {
-            basic: parseInt($('#quiz-basic').val()),
+            basic: parseInt(quizBasic.val()),
             sample: parseInt($('#quiz-sample').val())
         }
         const people = {
@@ -352,6 +352,10 @@ $('#calculator').on('submit', function (e) {
 btnChange.on('click', () => {
     changeTheme()
 })
+
+quizBasic.on('change', () => (quizBasic.val() === '0')?$('#people-basic').val('0'):'')
+
+quizSample.on('change', () => (quizSample.val() === '0')?$('#people-sample').val('0'):'')
 
 function currency(number){
     return number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
