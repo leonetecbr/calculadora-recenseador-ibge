@@ -8,9 +8,9 @@ popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
 
-const btnChange = $('#change-mode'), quizBasic = $('#quiz-basic'), quizSample = $('#quiz-sample')
+const quizBasic = $('#quiz-basic'), quizSample = $('#quiz-sample')
 let darkMode = localStorage.getItem('prefer'), mode = true
-if (darkMode !== null) darkMode = (darkMode === 'true')
+if (darkMode !== null) darkMode = (darkMode === '1')
 
 if ((window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) || (darkMode !== null && !darkMode)){
     changeTheme(false)
@@ -349,7 +349,7 @@ $('#calculator').on('submit', function (e) {
     $(this).addClass('was-validated')
 })
 
-btnChange.on('click', () => {
+$('#change-mode').on('click', () => {
     changeTheme()
 })
 
@@ -421,9 +421,9 @@ function changeTheme(click = true){
         $('#income').addClass('text-gray')
         $('.btn').addClass('btn-dark').removeClass('btn-secondary')
         $('.dark-mode').addClass('bg-dark')
-        btnChange.removeClass('bg-white')
+        $('.bg-change').removeClass('bg-white')
         $('.bi-moon').addClass('bi-sun').removeClass('bi-moon')
-        if (click) localStorage.setItem('prefer', true)
+        if (click) localStorage.setItem('prefer', '1')
     } else{
         $('.form-control').removeClass('form-control-dark')
         $('.form-check-input').removeClass('form-check-dark')
@@ -433,8 +433,8 @@ function changeTheme(click = true){
         $('#income').removeClass('text-gray')
         $('.btn').removeClass('btn-dark').addClass('btn-secondary')
         $('.dark-mode').removeClass('bg-dark')
-        btnChange.addClass('bg-white')
+        $('.bg-change').addClass('bg-white')
         $('.bi-sun').addClass('bi-moon').removeClass('bi-sun')
-        if (click) localStorage.setItem('prefer', false)
+        if (click) localStorage.setItem('prefer', '0')
     }
 }
