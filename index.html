@@ -50,23 +50,17 @@
                         <i class="bi bi-info-circle-fill"></i>
                     </sup>
                 </h3>
-                <div class="d-sm-flex justify-content-around col-7 mx-auto col-sm-auto col-lg-9">
-                    <div class="col-sm-3">
+                <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                    <div class="col-5">
                         <label for="units-confirmed">Confirmadas</label>
                         <input type="number" class="form-control form-control-dark" id="units-confirmed" min="0" required
                                placeholder="Unidades confirmadas">
                         <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-5">
                         <label for="units-included">Incluídas</label>
                         <input type="number" class="form-control form-control-dark" id="units-included" min="0" required
                                placeholder="Unidades incluídas">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="units-changed">Alteradas</label>
-                        <input type="number" class="form-control form-control-dark" id="units-changed" min="0" required
-                               placeholder="Unidades alteradas">
                         <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
                     </div>
                 </div>
@@ -203,13 +197,13 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-4 pt-4 d-none text-gray" id="income">
+        <div class="row mt-4 pt-4 d-none text-gray px-3" id="income">
             <h3 class="mb-3">A receber</h3>
-            <ul class="list-group mb-3">
+            <ul class="list-group mb-3 pe-0">
                 <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
                     <div>
                         <h6 class="my-0"><span id="units">0</span> unidades visitadas</h6>
-                        <small class="text-muted">Todas unidades confirmadas, alteradas ou incluídas.</small>
+                        <small class="text-muted">Todas unidades confirmadas ou incluídas.</small>
                     </div>
                     <span class="text-muted" id="units-value">R$ 0</span>
                 </li>
@@ -255,7 +249,7 @@
             </ul>
         </div>
         <div class="d-grid col-7 mx-auto mt-3">
-            <button class="btn btn-dark btn-lg">Calcular</button>
+            <button class="btn btn-dark btn-lg" id="calculate-btn">Calcular</button>
         </div>
     </form>
     <div class="rounded p-3 fixed-bottom bg-dark w-56 text-center dark-mode border ms-auto me-5 mb-5 bg-change" id="change-mode">
@@ -284,6 +278,6 @@
 </footer>
 <script src="/apps/ibge/js/jquery.min.js"></script>
 <script src="/apps/ibge/js/bootstrap.bundle.min.js"></script>
-<script defer src="/apps/ibge/js/app.js"></script>
+<script defer src="/apps/ibge/js/app.min.js"></script>
 </body>
 </html>

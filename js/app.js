@@ -291,8 +291,7 @@ $('#calculator').on('submit', function (e) {
         let sons = $('#number-sons').val(), family = 0, income = 0, inss, irrf
         let taxe = $('input[name="taxe"]:checked').val(), value = {}
         const locale = $('input[name="locale"]:checked').val()
-        let units = parseInt($('#units-confirmed').val()) + parseInt($('#units-changed').val())
-        units +=  parseInt($('#units-included').val())
+        let units = parseInt($('#units-confirmed').val()) + parseInt($('#units-included').val())
         const quiz = {
             basic: parseInt(quizBasic.val()),
             sample: parseInt($('#quiz-sample').val())
@@ -347,6 +346,8 @@ $('#calculator').on('submit', function (e) {
     }
 
     $(this).addClass('was-validated')
+
+    $('#calculate-btn').html('Atualizar')
 })
 
 $('#change-mode').on('click', () => {
