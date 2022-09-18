@@ -343,11 +343,10 @@ $('#calculator').on('submit', function (e) {
         $('#income').removeClass('d-none')
 
         window.location.href = '#income'
+        $('#calculate-btn').html('Atualizar')
     }
 
     $(this).addClass('was-validated')
-
-    $('#calculate-btn').html('Atualizar')
 })
 
 $('#change-mode').on('click', () => {
