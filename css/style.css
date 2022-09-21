@@ -1,11 +1,11 @@
-.form-control-dark, .form-check-dark,
+.form-control-dark, .form-check-dark, .input-group-text-dark,
 .form-control-dark:active .form-control-dark:active, .form-check-dark:focus, .form-control-dark:focus{
     background-color: var(--bs-dark);
     color: var(--bs-gray-200);
     border-color: rgba(255, 255, 255, .15);
 }
 
-.form-control-dark:focus{
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{
     border-color: rgba(255, 255, 255, .3);
 }
 

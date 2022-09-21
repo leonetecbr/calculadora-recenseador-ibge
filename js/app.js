@@ -3,12 +3,8 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
-const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
-})
-
-const quizBasic = $('#quiz-basic'), quizSample = $('#quiz-sample')
+const quizBasic = $('#quiz-basic'), quizSample = $('#quiz-sample'), calcIncome = $('#calc-income'),
+    calcTax = $('#calc-tax')
 let darkMode = localStorage.getItem('prefer'), mode = true
 if (darkMode !== null) darkMode = (darkMode === '1')
 
@@ -283,6 +279,60 @@ let taxes = {
     },
 }
 
+calcIncome.on('hide.bs.collapse', () => {
+    if (mode) $('#btn-calc-income a').removeClass('bg-dark')
+    else $('#btn-calc-income a').removeClass('bg-white')
+})
+
+calcIncome.on('show.bs.collapse', () => {
+    if (mode) $('#btn-calc-income a').addClass('bg-dark')
+    else $('#btn-calc-income a').addClass('bg-white')
+    bootstrap.Collapse.getOrCreateInstance(calcTax).hide()
+})
+
+calcTax.on('hide.bs.collapse', () => {
+    if (mode) $('#btn-calc-tax a').removeClass('bg-dark')
+    else $('#btn-calc-tax a').removeClass('bg-white')
+})
+
+calcTax.on('show.bs.collapse', () => {
+    if (mode) $('#btn-calc-tax a').addClass('bg-dark')
+    else $('#btn-calc-tax a').addClass('bg-white')
+    bootstrap.Collapse.getOrCreateInstance(calcIncome).hide()
+})
+
+$('#tax-form').on('submit', function (e) {
+    e.preventDefault()
+
+    const success = $('#calc-tax-success'), error = $('#calc-tax-error')
+
+    success.addClass('d-none')
+    error.addClass('d-none')
+
+    if (!this.checkValidity()) {
+        e.stopPropagation()
+    } else {
+        const value = parseFloat($('#value-units').val()), locale = $('input[name="tax-locale"]:checked').val()
+        const units = parseInt($('#units-visited').val()), valueUnit = parseFloat((value / units).toFixed(2))
+        let taxe = 0
+
+        for (let i = 1; i <= 11; i++) {
+            if (taxes[i][locale].unit === valueUnit) taxe = i
+        }
+
+        if  (taxe !== 0) {
+            $('#tax-value').html(taxe)
+            success.removeClass('d-none')
+        } else{
+            error.removeClass('d-none')
+        }
+
+        $('#calculate-tax-btn').html('Atualizar')
+    }
+
+    $(this).addClass('was-validated')
+})
+
 $('#calculator').on('submit', function (e) {
     e.preventDefault()
     if (!this.checkValidity()) {
@@ -423,6 +473,10 @@ function changeTheme(click = true){
         $('.dark-mode').addClass('bg-dark')
         $('.bg-change').removeClass('bg-white')
         $('.bi-moon').addClass('bi-sun').removeClass('bi-moon')
+        $('.input-group-text').addClass('input-group-text-dark')
+        $('.nav-tabs').addClass('bg-black').removeClass('bg-light')
+        $('.nav-tabs a').addClass('text-light').removeClass('text-black')
+        $('.nav-tabs a.bg-white').addClass('bg-dark').removeClass('bg-white')
         if (click) localStorage.setItem('prefer', '1')
     } else{
         $('.form-control').removeClass('form-control-dark')
@@ -435,6 +489,10 @@ function changeTheme(click = true){
         $('.dark-mode').removeClass('bg-dark')
         $('.bg-change').addClass('bg-white')
         $('.bi-sun').addClass('bi-moon').removeClass('bi-sun')
+        $('.input-group-text').removeClass('input-group-text-dark')
+        $('.nav-tabs').removeClass('bg-black').addClass('bg-light')
+        $('.nav-tabs a').removeClass('text-light').addClass('text-black')
+        $('.nav-tabs a.bg-dark').removeClass('bg-dark').addClass('bg-white')
         if (click) localStorage.setItem('prefer', '0')
     }
 }

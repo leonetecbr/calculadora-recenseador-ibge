@@ -31,227 +31,305 @@
     <h1 class="fs-3 text-center">Calculadora - Remuneração recenseador</h1>
 </header>
 <main class="container mb-3 px-2">
-    <form id="calculator" novalidate>
-        <div class="shadow-sm rounded bg-dark px-3 py-4">
-            <div class="title pb-1 border-bottom">
-                <h2>
-                    Andamento do setor
-                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                         title='Acesse a aba "Relatórios" -> "Andamento do setor" em seu DMC.'>
-                        <i class="bi bi-info-circle-fill"></i>
-                    </sup>
-                </h2>
-            </div>
-            <div class="content">
-                <h3 class="mt-3 text-center">
-                    Unidades
-                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                         title="Andamento do setor -> 3 Resumo Unidades">
-                        <i class="bi bi-info-circle-fill"></i>
-                    </sup>
-                </h3>
-                <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
-                    <div class="col-5">
-                        <label for="units-confirmed">Confirmadas</label>
-                        <input type="number" class="form-control form-control-dark" id="units-confirmed" min="0" required
-                               placeholder="Unidades confirmadas">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
-                    </div>
-                    <div class="col-5">
-                        <label for="units-included">Incluídas</label>
-                        <input type="number" class="form-control form-control-dark" id="units-included" min="0" required
-                               placeholder="Unidades incluídas">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
-                    </div>
+    <ul class="nav nav-tabs bg-black">
+        <li class="nav-item" id="btn-calc-income">
+            <a class="nav-link bg-dark text-light" href="#calc-income" data-bs-toggle="collapse">
+                Calcular remuneração
+            </a>
+        </li>
+        <li class="nav-item" id="btn-calc-tax">
+            <a class="nav-link text-light" href="#calc-tax" data-bs-toggle="collapse">
+                Descobrir taxa
+            </a>
+        </li>
+    </ul>
+    <div class="collapse show" id="calc-income">
+        <form id="calculator" novalidate>
+            <div class="shadow-sm rounded bg-dark px-3 py-4">
+                <div class="title pb-1 border-bottom">
+                    <h2>
+                        Andamento do setor
+                        <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                             title='Acesse a aba "Relatórios" -> "Andamento do setor" em seu DMC.'>
+                            <i class="bi bi-info-circle-fill"></i>
+                        </sup>
+                    </h2>
                 </div>
-                <h3 class="mt-3 text-center">
-                    Questionários
-                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                         title='Andamento do setor -> 8 Total Questionários'>
-                        <i class="bi bi-info-circle-fill"></i>
-                    </sup>
-                </h3>
-                <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
-                    <div class="col-5">
-                        <label for="quiz-basic">Básico</label>
-                        <input type="number" class="form-control form-control-dark" id="quiz-basic" min="0" required
-                               placeholder="Questionários básicos">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                <div class="content">
+                    <h3 class="mt-3 text-center">
+                        Unidades
+                        <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                             title="Andamento do setor -> 3 Resumo Unidades">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </sup>
+                    </h3>
+                    <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                        <div class="col-5">
+                            <label for="units-confirmed" class="form-label">Confirmadas</label>
+                            <input type="number" class="form-control form-control-dark" id="units-confirmed" min="0" required
+                                   placeholder="Unidades confirmadas">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
+                        <div class="col-5">
+                            <label for="units-included" class="form-label">Incluídas</label>
+                            <input type="number" class="form-control form-control-dark" id="units-included" min="0" required
+                                   placeholder="Unidades incluídas">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
                     </div>
-                    <div class="col-5">
-                        <label for="quiz-sample">Amostra</label>
-                        <input type="number" class="form-control form-control-dark" id="quiz-sample" min="0" required
-                               placeholder="Questionários amostra">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                    <h3 class="mt-3 text-center">
+                        Questionários
+                        <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                             title='Andamento do setor -> 8 Total Questionários'>
+                            <i class="bi bi-info-circle-fill"></i>
+                        </sup>
+                    </h3>
+                    <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                        <div class="col-5">
+                            <label for="quiz-basic" class="form-label">Básico</label>
+                            <input type="number" class="form-control form-control-dark" id="quiz-basic" min="0" required
+                                   placeholder="Questionários básicos">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
+                        <div class="col-5">
+                            <label for="quiz-sample" class="form-label">Amostra</label>
+                            <input type="number" class="form-control form-control-dark" id="quiz-sample" min="0" required
+                                   placeholder="Questionários amostra">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
                     </div>
-                </div>
-                <h3 class="mt-3 text-center">
-                    Pessoas
-                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                         title='Andamento do setor -> 9 Resumo De Pessoas Recenseadas'>
-                        <i class="bi bi-info-circle-fill"></i>
-                    </sup>
-                </h3>
-                <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
-                    <div class="col-5">
-                        <label for="people-basic">Básico</label>
-                        <input type="number" class="form-control form-control-dark" id="people-basic" min="0" required
-                               placeholder="Pessoas básico">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
-                    </div>
-                    <div class="col-5">
-                        <label for="people-sample">Amostra</label>
-                        <input type="number" class="form-control form-control-dark" id="people-sample" min="0" required
-                               placeholder="Pessoas Amostra">
-                        <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="shadow-sm rounded bg-dark px-3 py-4 mt-4">
-            <div class="title pb-1 border-bottom">
-                <h2>Detalhes do setor</h2>
-            </div>
-            <div class="content">
-                <h3 class="text-center mt-3 mb-0">Localização</h3>
-                <div class="d-flex justify-content-center mt-3">
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="locale" id="locale-urban" class="form-check-input form-check-dark" value="urban" required>
-                        <label for="locale-urban" class="form-check-label">Urbano</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="locale" id="locale-rural" class="form-check-input form-check-dark" value="rural" required>
-                        <label for="locale-rural" class="form-check-label">Rural ou PCT
-                            <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                                 title="Povos e Comunidades Tradicionais (aldeias indígenas e comunidades quilombolas).">
-                                <i class="bi bi-info-circle-fill"></i>
-                            </sup>
-                        </label>
-                    </div>
-                </div>
-                <h3 class="text-center my-3">Taxa do setor
-                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                         title="Você consegue essa informação com o seu ACS ou ACM.">
-                        <i class="bi bi-info-circle-fill"></i>
-                    </sup>
-                </h3>
-                <div class="d-flex justify-content-center">
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-1" class="form-check-input form-check-dark" value=1 required>
-                        <label for="taxe-1" class="form-check-label">1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-2" class="form-check-input form-check-dark" value=2 required>
-                        <label for="taxe-2" class="form-check-label">2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-3" class="form-check-input form-check-dark" value=3 required>
-                        <label for="taxe-3" class="form-check-label">3</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-4" class="form-check-input form-check-dark" value=4 required>
-                        <label for="taxe-4" class="form-check-label">4</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-5" class="form-check-input form-check-dark" value=5 required>
-                        <label for="taxe-5" class="form-check-label">5</label>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-6" class="form-check-input form-check-dark" value=6 required>
-                        <label for="taxe-6" class="form-check-label">6</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-7" class="form-check-input form-check-dark" value=7 required>
-                        <label for="taxe-7" class="form-check-label">7</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-8" class="form-check-input form-check-dark" value=8 required>
-                        <label for="taxe-8" class="form-check-label">8</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-9" class="form-check-input form-check-dark" value=9 required>
-                        <label for="taxe-9" class="form-check-label">9</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-10" class="form-check-input form-check-dark" value=10 required>
-                        <label for="taxe-10" class="form-check-label">10</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input type="radio" name="taxe" id="taxe-11" class="form-check-input form-check-dark" value=11 required>
-                        <label for="taxe-11" class="form-check-label">11</label>
+                    <h3 class="mt-3 text-center">
+                        Pessoas
+                        <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                             title='Andamento do setor -> 9 Resumo De Pessoas Recenseadas'>
+                            <i class="bi bi-info-circle-fill"></i>
+                        </sup>
+                    </h3>
+                    <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                        <div class="col-5">
+                            <label for="people-basic" class="form-label">Básico</label>
+                            <input type="number" class="form-control form-control-dark" id="people-basic" min="0" required
+                                   placeholder="Pessoas básico">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
+                        <div class="col-5">
+                            <label for="people-sample" class="form-label">Amostra</label>
+                            <input type="number" class="form-control form-control-dark" id="people-sample" min="0" required
+                                   placeholder="Pessoas Amostra">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="shadow-sm rounded bg-dark px-3 py-4 mt-4">
-            <div class="title pb-1 border-bottom">
-                <h2>Benefícios</h2>
-            </div>
-            <div class="content">
-                <h3 class="text-center my-3">Salário família</h3>
-                <div class="col-5 mx-auto">
-                    <label for="number-sons">Filhos até 14 anos</label>
-                    <input type="number" class="form-control form-control-dark" id="number-sons" min="0" value="0" required>
+            <div class="shadow-sm rounded bg-dark px-3 py-4 mt-4">
+                <div class="title pb-1 border-bottom">
+                    <h2>Detalhes do setor</h2>
+                </div>
+                <div class="content">
+                    <h3 class="text-center mt-3 mb-0">Localização</h3>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="locale" id="locale-urban" class="form-check-input form-check-dark" value="urban" required>
+                            <label for="locale-urban" class="form-check-label">Urbano</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="locale" id="locale-rural" class="form-check-input form-check-dark" value="rural" required>
+                            <label for="locale-rural" class="form-check-label">Rural ou PCT
+                                <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                                     title="Povos e Comunidades Tradicionais (aldeias indígenas e comunidades quilombolas).">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                </sup>
+                            </label>
+                        </div>
+                    </div>
+                    <h3 class="text-center my-3">Taxa do setor
+                        <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                             title="Você consegue essa informação com o seu ACS ou ACM.">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </sup>
+                    </h3>
+                    <div class="d-flex justify-content-center">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-1" class="form-check-input form-check-dark" value=1 required>
+                            <label for="taxe-1" class="form-check-label">1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-2" class="form-check-input form-check-dark" value=2 required>
+                            <label for="taxe-2" class="form-check-label">2</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-3" class="form-check-input form-check-dark" value=3 required>
+                            <label for="taxe-3" class="form-check-label">3</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-4" class="form-check-input form-check-dark" value=4 required>
+                            <label for="taxe-4" class="form-check-label">4</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-5" class="form-check-input form-check-dark" value=5 required>
+                            <label for="taxe-5" class="form-check-label">5</label>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-6" class="form-check-input form-check-dark" value=6 required>
+                            <label for="taxe-6" class="form-check-label">6</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-7" class="form-check-input form-check-dark" value=7 required>
+                            <label for="taxe-7" class="form-check-label">7</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-8" class="form-check-input form-check-dark" value=8 required>
+                            <label for="taxe-8" class="form-check-label">8</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-9" class="form-check-input form-check-dark" value=9 required>
+                            <label for="taxe-9" class="form-check-label">9</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-10" class="form-check-input form-check-dark" value=10 required>
+                            <label for="taxe-10" class="form-check-label">10</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="taxe" id="taxe-11" class="form-check-input form-check-dark" value=11 required>
+                            <label for="taxe-11" class="form-check-label">11</label>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-4 pt-4 d-none text-gray px-3" id="income">
-            <h3 class="mb-3">A receber</h3>
-            <ul class="list-group mb-3 pe-0">
-                <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0"><span id="units">0</span> unidades visitadas</h6>
-                        <small class="text-muted">Todas unidades confirmadas ou incluídas.</small>
+            <div class="shadow-sm rounded bg-dark px-3 py-4 mt-4">
+                <div class="title pb-1 border-bottom">
+                    <h2>Benefícios</h2>
+                </div>
+                <div class="content">
+                    <h3 class="text-center my-3">Salário família</h3>
+                    <div class="col-5 mx-auto">
+                        <label for="number-sons" class="form-label">Filhos até 14 anos</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control form-control-dark" id="number-sons" min="0"
+                                   value="0" required>
+                            <span class="input-group-text input-group-text-dark bg-change bg-dark">filho(s)</span>
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
                     </div>
-                    <span class="text-muted" id="units-value">R$ 0</span>
-                </li>
-                <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0"><span id="quiz">0</span> questionários</h6>
-                        <small class="text-muted">Todos os questionários, básicos e de amostra.</small>
+                </div>
+            </div>
+            <div class="row mt-4 pt-4 d-none text-gray px-3" id="income">
+                <h3 class="mb-3">A receber</h3>
+                <ul class="list-group mb-3 pe-0">
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0"><span id="units">0</span> unidades visitadas</h6>
+                            <small class="text-muted">Todas unidades confirmadas ou incluídas.</small>
+                        </div>
+                        <span class="text-muted" id="units-value">R$ 0</span>
+                    </li>
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0"><span id="quiz">0</span> questionários</h6>
+                            <small class="text-muted">Todos os questionários, básicos e de amostra.</small>
+                        </div>
+                        <span class="text-muted" id="quiz-value">R$ 0</span>
+                    </li>
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0"><span id="people">0</span> pessoas</h6>
+                            <small class="text-muted">Todas as pessoas recenseadas.</small>
+                        </div>
+                        <span class="text-muted" id="people-value">R$ 0</span>
+                    </li>
+                    <li class="list-group-item bg-dark text-gray list-group-item-success d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">Salário família</h6>
+                            <small class="text-success" id="family-salary"><span id="quantity-sons">0</span> filhos</small>
+                        </div>
+                        <span class="text-success" id="family-salary-value">+ R$ 0</span>
+                    </li>
+                    <li class="list-group-item bg-dark text-gray list-group-item-danger d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">INSS</h6>
+                            <small class="text-danger"><span id="percent-inss">0</span>%</small>
+                        </div>
+                        <span class="text-danger" id="inss-value">− R$ 0</span>
+                    </li>
+                    <li class="list-group-item bg-dark text-gray list-group-item-danger d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">IRRF</h6>
+                            <small class="text-danger"><span id="percent-irrf">0</span>%</small>
+                        </div>
+                        <span class="text-danger" id="irrf-value">− R$ 0</span>
+                    </li>
+                    <li class="list-group-item bg-dark text-gray d-flex justify-content-between">
+                        <span>Total</span>
+                        <strong id="income-value">R$20</strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-grid col-7 mx-auto mt-3">
+                <button class="btn btn-dark btn-lg" id="calculate-btn">Calcular</button>
+            </div>
+        </form>
+    </div>
+    <div class="collapse" id="calc-tax">
+        <form id="tax-form" novalidate>
+            <div class="shadow-sm rounded bg-dark px-3 py-4">
+                <div class="title pb-1 border-bottom">
+                    <h2>Detalhes</h2>
+                </div>
+                <div class="content">
+                    <h3 class="text-center mt-3 mb-0">Localização</h3>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="tax-locale" id="tax-urban" class="form-check-input form-check-dark" value="urban" required>
+                            <label for="tax-urban" class="form-check-label">Urbano</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="tax-locale" id="tax-rural" class="form-check-input form-check-dark" value="rural" required>
+                            <label for="tax-rural" class="form-check-label">Rural ou PCT
+                                <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                                     title="Povos e Comunidades Tradicionais (aldeias indígenas e comunidades quilombolas).">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                </sup>
+                            </label>
+                        </div>
                     </div>
-                    <span class="text-muted" id="quiz-value">R$ 0</span>
-                </li>
-                <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0"><span id="people">0</span> pessoas</h6>
-                        <small class="text-muted">Todas as pessoas recenseadas.</small>
+                    <h3 class="text-center my-3">Valores pagos
+                        <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                             title="Para identificar a taxa, precisamos que você digite os valores pagos, caso não tenha nenhum contracheque da região você pode perguntar a taxa ao seu ACS ou ACM.">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </sup>
+                    </h3>
+                    <div class="d-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                        <div class="col-5">
+                            <label for="units-visited" class="form-label">Unidades visitadas</label>
+                            <input type="number" class="form-control form-control-dark" id="units-visited" min="1" required
+                                   placeholder="Unidades visitadas">
+                            <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                        </div>
+                        <div class="col-5">
+                            <label for="value-units" class="form-label">Valor da unidades</label>
+                            <div class="input-group">
+                                <span class="input-group-text input-group-text-dark bg-change bg-dark">R$</span>
+                                <input type="number" class="form-control form-control-dark" id="value-units" min="0.01"
+                                       step="0.01" required placeholder="Valor das unidades">
+                                <div class="invalid-feedback text-center">Este campo é obrigatório!</div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-muted" id="people-value">R$ 0</span>
-                </li>
-                <li class="list-group-item bg-dark text-gray list-group-item-success d-flex justify-content-between">
-                    <div>
-                        <h6 class="my-0">Salário família</h6>
-                        <small class="text-success" id="family-salary"><span id="quantity-sons">0</span> filhos</small>
-                    </div>
-                    <span class="text-success" id="family-salary-value">+ R$ 0</span>
-                </li>
-                <li class="list-group-item bg-dark text-gray list-group-item-danger d-flex justify-content-between">
-                    <div>
-                        <h6 class="my-0">INSS</h6>
-                        <small class="text-danger"><span id="percent-inss">0</span>%</small>
-                    </div>
-                    <span class="text-danger" id="inss-value">− R$ 0</span>
-                </li>
-                <li class="list-group-item bg-dark text-gray list-group-item-danger d-flex justify-content-between">
-                    <div>
-                        <h6 class="my-0">IRRF</h6>
-                        <small class="text-danger"><span id="percent-irrf">0</span>%</small>
-                    </div>
-                    <span class="text-danger" id="irrf-value">− R$ 0</span>
-                </li>
-                <li class="list-group-item bg-dark text-gray d-flex justify-content-between">
-                    <span>Total</span>
-                    <strong id="income-value">R$20</strong>
-                </li>
-            </ul>
-        </div>
-        <div class="d-grid col-7 mx-auto mt-3">
-            <button class="btn btn-dark btn-lg" id="calculate-btn">Calcular</button>
-        </div>
-    </form>
+                </div>
+            </div>
+            <div class="alert alert-danger text-center mt-3 d-none" id="calc-tax-error">
+                Não foi possível calcular a taxa, verifique os dados e tente novamente.
+            </div>
+            <div class="alert alert-success text-center mt-3 d-none" id="calc-tax-success">
+                Pelas informações passadas a taxa desse setor é <span id="tax-value" class="fw-bolder"></span>.
+            </div>
+            <div class="d-grid col-7 mx-auto mt-3">
+                <button class="btn btn-dark btn-lg" id="calculate-tax-btn">Calcular</button>
+            </div>
+        </form>
+    </div>
     <div class="rounded p-3 fixed-bottom bg-dark w-56 text-center dark-mode border ms-auto me-5 mb-5 bg-change" id="change-mode">
         <i class="bi bi-sun"></i>
     </div>
@@ -280,6 +358,6 @@
 </footer>
 <script src="/apps/ibge/js/jquery.min.js"></script>
 <script src="/apps/ibge/js/bootstrap.bundle.min.js"></script>
-<script defer src="/apps/ibge/js/app.min.js"></script>
+<script defer src="/apps/ibge/js/app.js"></script>
 </body>
 </html>
