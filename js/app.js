@@ -3,14 +3,20 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
-const quizBasic = $('#quiz-basic'), quizSample = $('#quiz-sample'), calcIncome = $('#calc-income'),
-    calcTax = $('#calc-tax')
+const quizBasic = $('#quizBasic'), quizSample = $('#quizSample'), calcIncome = $('#btnCalcIncome')
+const calcTax = $('#btnCalcTax'), calcTermination = $('#btnCalcTermination')
+const formIncome = $('#incomeForm'), formTermination = $('#terminationForm'), formTax = $('#taxForm')
+
 let darkMode = localStorage.getItem('prefer'), mode = true
 if (darkMode !== null) darkMode = (darkMode === '1')
 
 if ((window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) || (darkMode !== null && !darkMode)){
     changeTheme(false)
 }
+
+const currency = (number) => number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
+const active = (tag) => (mode) ? tag.addClass('bg-dark') : tag.addClass('bg-white')
+const disabled = (tag) => (mode) ? tag.removeClass('bg-dark') : tag.removeClass('bg-white')
 
 let taxes = {
     1: {
@@ -279,77 +285,44 @@ let taxes = {
     },
 }
 
-calcIncome.on('hide.bs.collapse', () => {
-    if (mode) $('#btn-calc-income a').removeClass('bg-dark')
-    else $('#btn-calc-income a').removeClass('bg-white')
-})
+calcIncome.on('hide.bs.tab', () => disabled(calcIncome))
+calcIncome.on('show.bs.tab', () => active(calcIncome))
 
-calcIncome.on('show.bs.collapse', () => {
-    if (mode) $('#btn-calc-income a').addClass('bg-dark')
-    else $('#btn-calc-income a').addClass('bg-white')
-    bootstrap.Collapse.getOrCreateInstance(calcTax).hide()
-})
+calcTax.on('hide.bs.tab', () => disabled(calcTax))
+calcTax.on('show.bs.tab', () => active(calcTax))
 
-calcTax.on('hide.bs.collapse', () => {
-    if (mode) $('#btn-calc-tax a').removeClass('bg-dark')
-    else $('#btn-calc-tax a').removeClass('bg-white')
-})
+calcTermination.on('hide.bs.tab', () => disabled(calcTermination))
+calcTermination.on('show.bs.tab', () => active(calcTermination))
 
-calcTax.on('show.bs.collapse', () => {
-    if (mode) $('#btn-calc-tax a').addClass('bg-dark')
-    else $('#btn-calc-tax a').addClass('bg-white')
-    bootstrap.Collapse.getOrCreateInstance(calcIncome).hide()
-})
+new bootstrap.Tab(calcIncome).show()
 
-$('#tax-form').on('submit', function (e) {
+quizBasic.on('change', () => (quizBasic.val() === '0') ? $('#peopleBasic').val('0') : '')
+
+quizSample.on('change', () => (quizSample.val() === '0') ? $('#peopleSample').val('0') : '')
+
+formIncome.on('submit', function (e) {
     e.preventDefault()
-
-    const success = $('#calc-tax-success'), error = $('#calc-tax-error')
-
-    success.addClass('d-none')
-    error.addClass('d-none')
 
     if (!this.checkValidity()) {
         e.stopPropagation()
     } else {
-        const value = parseFloat($('#value-units').val()), locale = $('input[name="tax-locale"]:checked').val()
-        const units = parseInt($('#units-visited').val()), valueUnit = parseFloat((value / units).toFixed(2))
-        let taxe = 0
-
-        for (let i = 1; i <= 11; i++) {
-            if (taxes[i][locale].unit === valueUnit) taxe = i
-        }
-
-        if  (taxe !== 0) {
-            $('#tax-value').html(taxe)
-            success.removeClass('d-none')
-        } else{
-            error.removeClass('d-none')
-        }
-
-        $('#calculate-tax-btn').html('Atualizar')
-    }
-
-    $(this).addClass('was-validated')
-})
-
-$('#calculator').on('submit', function (e) {
-    e.preventDefault()
-    if (!this.checkValidity()) {
-        e.stopPropagation()
-    } else {
-        let sons = $('#number-sons').val(), family = 0, income = 0, inss, irrf
-        let taxe = $('input[name="taxe"]:checked').val(), value = {}
-        const locale = $('input[name="locale"]:checked').val()
-        let units = parseInt($('#units-confirmed').val()) + parseInt($('#units-included').val())
+        const data = Object.fromEntries(formIncome.serializeArray().map(({name, value}) => [name, value]))
+        let family = 0, income = 0, inss, irrf, taxe = data.taxe, value = {}
+        const locale = data.locale, sons = data.number_sons, outRangeSalary = $('#outRangeSalary')
+        const units = parseInt(data.units_confirmed) + parseInt(data.units_included)
+        const quantitySons = $('#quantitySons')
         const quiz = {
-            basic: parseInt(quizBasic.val()),
-            sample: parseInt($('#quiz-sample').val())
+            basic: parseInt(data.quiz_basic),
+            sample: parseInt(data.quiz_sample)
         }
+
         const people = {
-            basic: parseInt($('#people-basic').val()),
-            sample: parseInt($('#people-sample').val())
+            basic: parseInt(data.people_basic),
+            sample: parseInt(data.people_sample)
         }
+
+        quantitySons.removeClass('d-none')
+        outRangeSalary.addClass('d-none')
 
         taxe = taxes[taxe][locale]
 
@@ -363,53 +336,124 @@ $('#calculator').on('submit', function (e) {
         $('#quiz').html(quiz.basic + quiz.sample)
         $('#people').html(people.basic + people.sample)
 
-        $('#units-value').html(currency(value.units))
-        $('#quiz-value').html(currency(value.quiz))
-        $('#people-value').html(currency(value.people))
+        $('#unitsValue').html(currency(value.units))
+        $('#quizValue').html(currency(value.quiz))
+        $('#peopleValue').html(currency(value.people))
 
         if (income <= 1655.98 && income > 0){
-            $('#quantity-sons').html(sons)
+            $('#quantitySonsValue').html(sons)
             family = sons * 56.47
-        } else $('#family-salary').html('Salário fora da faixa contemplada!')
+        } else{
+            quantitySons.addClass('d-none')
+            outRangeSalary.removeClass('d-none')
+        }
 
-        $('#family-salary-value').html(currency(family))
+        $('#familySalaryValue').html(currency(family))
 
         inss = calcINSS(income)
 
-        $('#percent-inss').html(inss.taxe.toLocaleString('pt-br'))
-        $('#inss-value').html(currency(inss.discount))
+        $('#percentInss').html(inss.taxe.toLocaleString('pt-br'))
+        $('#inssValue').html(currency(inss.discount))
 
         income += inss.discount
 
         irrf = calcIRRF(income)
 
-        $('#percent-irrf').html(irrf.taxe.toLocaleString('pt-br'))
-        $('#irrf-value').html(currency(irrf.discount))
+        $('#percentIrrf').html(irrf.taxe.toLocaleString('pt-br'))
+        $('#irrfValue').html(currency(irrf.discount))
 
         income += irrf.discount
         income += family
 
-        $('#income-value').html(currency(income))
+        $('#incomeValue').html(currency(income))
         $('#income').removeClass('d-none')
 
         window.location.href = '#income'
-        $('#calculate-btn').html('Atualizar')
+        $('#calculateBtn').html('Atualizar')
     }
 
-    $(this).addClass('was-validated')
+    $(formIncome).addClass('was-validated')
 })
 
-$('#change-mode').on('click', () => {
+formTax.on('submit', function (e) {
+    e.preventDefault()
+
+    const success = $('#calcTaxSuccess'), error = $('#calcTaxError')
+
+    success.addClass('d-none')
+    error.addClass('d-none')
+
+    if (!this.checkValidity()) {
+        e.stopPropagation()
+    } else {
+        const data = Object.fromEntries(formTax.serializeArray().map(({name, value}) => [name, value]));
+        const value = parseFloat(data.value_units), locale = data.tax_locale
+        const units = parseInt(data.units_visited), valueUnit = parseFloat((value / units).toFixed(2))
+        let taxe = 0
+
+        for (let i = 1; i <= 11; i++) {
+            if (taxes[i][locale].unit === valueUnit) taxe = i
+        }
+
+        if  (taxe !== 0) {
+            $('#taxValue').html(taxe)
+            success.removeClass('d-none')
+        } else{
+            error.removeClass('d-none')
+        }
+
+        $('#calculateTaxBtn').html('Atualizar')
+    }
+
+    formTax.addClass('was-validated')
+})
+
+$('#changeMode').on('click', () => {
     changeTheme()
 })
 
-quizBasic.on('change', () => (quizBasic.val() === '0')?$('#people-basic').val('0'):'')
+formTermination.on('submit', function (e) {
+    e.preventDefault()
 
-quizSample.on('change', () => (quizSample.val() === '0')?$('#people-sample').val('0'):'')
+    if (!this.checkValidity()) {
+        e.stopPropagation()
+    } else {
+        const data = Object.fromEntries(formTermination.serializeArray().map(({name, value}) => [name, value]));
+        const daysWorked = parseInt(data.days_worked);
+        const monthsWorked = {
+            christmas_bonus: (daysWorked % 30 >= 15) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30),
+            vacation: (daysWorked % 30 >= 14) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30),
+        }
 
-function currency(number){
-    return number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
-}
+        const salary = parseFloat((parseFloat(data.income_total) / daysWorked * 30).toFixed(2))
+
+        const vacation = salary * (monthsWorked.vacation / 12)
+        const vacationBonus = parseFloat((vacation / 3).toFixed(2))
+        const christmasBonus = salary * (monthsWorked.christmas_bonus / 12)
+        let total = vacation + vacationBonus + christmasBonus
+
+        $('#salary').html(currency(salary))
+        $('#christmasBonus').html(currency(christmasBonus))
+
+        const inss = calcINSS(christmasBonus)
+        const irrf = calcIRRF(christmasBonus - inss.discount)
+        total += inss.discount - irrf.discount
+
+        $('#vacation').html(currency(vacation))
+        $('#vacationBonus').html(currency(vacationBonus))
+        $('#incomeTerminationTotal').html(currency(total))
+        $('#percentInssTermination').html(inss.taxe.toLocaleString('pt-br'))
+        $('#inssTermination').html(currency(inss.discount))
+        $('#percentIrrfTermination').html(irrf.taxe.toLocaleString('pt-br'))
+        $('#irrfTermination').html(currency(irrf.discount))
+        $('#incomeTermination').removeClass('d-none')
+
+        window.location.href = '#incomeTermination'
+        $('#calculateTerminationBtn').html('Atualizar')
+    }
+
+    formTermination.addClass('was-validated')
+})
 
 function calcINSS(income){
     let inss = {taxe: 14, discount: 0}
@@ -468,7 +512,7 @@ function changeTheme(click = true){
         $('body').addClass('bg-black').addClass('text-gray').removeClass('bg-light')
         $('.shadow-sm').addClass('bg-dark').removeClass('bg-white')
         $('.list-group-item').addClass('bg-dark').addClass('text-gray')
-        $('#income').addClass('text-gray')
+        $('.income').addClass('text-gray')
         $('.btn').addClass('btn-dark').removeClass('btn-secondary')
         $('.dark-mode').addClass('bg-dark')
         $('.bg-change').removeClass('bg-white')
@@ -484,7 +528,7 @@ function changeTheme(click = true){
         $('body').removeClass('bg-black').removeClass('text-gray').addClass('bg-light')
         $('.shadow-sm').removeClass('bg-dark').addClass('bg-white')
         $('.list-group-item').removeClass('bg-dark').removeClass('text-gray')
-        $('#income').removeClass('text-gray')
+        $('.income').removeClass('text-gray')
         $('.btn').removeClass('btn-dark').addClass('btn-secondary')
         $('.dark-mode').removeClass('bg-dark')
         $('.bg-change').addClass('bg-white')
