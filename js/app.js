@@ -1,24 +1,16 @@
-const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-})
-
-const quizBasic = $('#quizBasic'), quizSample = $('#quizSample'), calcIncome = $('#btnCalcIncome')
-const calcTax = $('#btnCalcTax'), calcTermination = $('#btnCalcTermination')
-const formIncome = $('#incomeForm'), formTermination = $('#terminationForm'), formTax = $('#taxForm')
-
 let darkMode = localStorage.getItem('prefer'), mode = true
 if (darkMode !== null) darkMode = (darkMode === '1')
 
-if ((window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) || (darkMode !== null && !darkMode)){
+if ((window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) || (darkMode !== null && !darkMode)) {
     changeTheme(false)
 }
 
-const currency = (number) => number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
-const active = (tag) => (mode) ? tag.addClass('bg-dark') : tag.addClass('bg-white')
-const disabled = (tag) => (mode) ? tag.removeClass('bg-dark') : tag.removeClass('bg-white')
+const quizBasic = $('#quizBasic'), quizSample = $('#quizSample'), tabLink = $('.tab-link'), formTax = $('#taxForm')
+const formIncome = $('#incomeForm'), formTermination = $('#terminationForm'), formAbsence = $('#absenceForm')
 
-let taxes = {
+const currency = (number) => number.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})
+
+const taxes = {
     1: {
         urban: {
             unit: 0.51,
@@ -285,16 +277,17 @@ let taxes = {
     },
 }
 
-calcIncome.on('hide.bs.tab', () => disabled(calcIncome))
-calcIncome.on('show.bs.tab', () => active(calcIncome))
+tabLink.on('hide.bs.tab', function () {
+    if (mode) $(this).removeClass('bg-dark')
+    else $(this).removeClass('bg-white')
+})
 
-calcTax.on('hide.bs.tab', () => disabled(calcTax))
-calcTax.on('show.bs.tab', () => active(calcTax))
+tabLink.on('show.bs.tab', function () {
+    if (mode) $(this).addClass('bg-dark')
+    else $(this).addClass('bg-white')
+})
 
-calcTermination.on('hide.bs.tab', () => disabled(calcTermination))
-calcTermination.on('show.bs.tab', () => active(calcTermination))
-
-new bootstrap.Tab(calcIncome).show()
+new bootstrap.Tab($('#btnCalcIncome')).show()
 
 quizBasic.on('change', () => (quizBasic.val() === '0') ? $('#peopleBasic').val('0') : '')
 
@@ -372,7 +365,7 @@ formIncome.on('submit', function (e) {
         $('#calculateBtn').html('Atualizar')
     }
 
-    $(formIncome).addClass('was-validated')
+    formIncome.addClass('was-validated')
 })
 
 formTax.on('submit', function (e) {
@@ -408,8 +401,41 @@ formTax.on('submit', function (e) {
     formTax.addClass('was-validated')
 })
 
-$('#changeMode').on('click', () => {
-    changeTheme()
+formAbsence.on('submit', function (e) {
+    e.preventDefault()
+
+    if (!this.checkValidity()) {
+        e.stopPropagation()
+    } else {
+        const data = Object.fromEntries(formAbsence.serializeArray().map(({name, value}) => [name, value]))
+        const domicile = parseInt(data.domicile_occupied)
+        let absence = {
+            quantity: domicile - parseInt(data.quiz_finalized),
+            taxe: null
+        }
+
+        let goals = {
+            taxe: parseInt(data.goal_absence),
+            quantity: null
+        }
+
+        goals.quantity = domicile * goals.taxe / 100
+
+        absence.taxe = parseFloat((absence.quantity / domicile * 100).toFixed())
+
+        const diff = absence.quantity - goals.quantity
+
+        $('#absenceQuantity').html(absence.quantity)
+        $('#absenceTaxe').html(absence.taxe.toLocaleString('pt-br'))
+        $('#goalAbsenceQuantity').html(goals.quantity.toLocaleString('pt-br'))
+        $('#goalAbsenceDiff').html((diff > 0) ? Math.ceil(diff) : 0)
+        $('#absenceDetails').removeClass('d-none')
+
+        window.location.href = '#absenceDetails'
+        $('#calculateAbsenceBtn').html('Atualizar')
+    }
+
+    formAbsence.addClass('was-validated')
 })
 
 formTermination.on('submit', function (e) {
@@ -455,15 +481,18 @@ formTermination.on('submit', function (e) {
     formTermination.addClass('was-validated')
 })
 
-function calcINSS(income){
+$('#changeMode').on('click', changeTheme)
+
+$('[data-bs-toggle="tooltip"]').toArray().map(tooltipTrigger => new bootstrap.Tooltip(tooltipTrigger))
+
+function calcINSS(income) {
     let inss = {taxe: 14, discount: 0}
 
     if (income <= 1212) inss.taxe = 7.5
-    else if (income <= 2427.35){
+    else if (income <= 2427.35) {
         inss.taxe = 9
         inss.discount = 18.18
-    }
-    else if (income <= 3641.03){
+    } else if (income <= 3641.03) {
         inss.taxe = 12
         inss.discount = 91.01
     }
