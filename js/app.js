@@ -332,6 +332,7 @@ formIncome.on('submit', function (e) {
         $('#unitsValue').html(currency(value.units))
         $('#quizValue').html(currency(value.quiz))
         $('#peopleValue').html(currency(value.people))
+        $('#totalGross').html(currency(income))
 
         if (income <= 1655.98 && income > 0){
             $('#quantitySonsValue').html(sons)
