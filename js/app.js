@@ -5,6 +5,8 @@ if ((window.matchMedia('(prefers-color-scheme: dark)').matches && !darkMode) || 
     changeTheme(false)
 }
 
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/apps/ibge/sw.js')
+
 const quizBasic = $('#quizBasic'), quizSample = $('#quizSample'), tabLink = $('.tab-link'), formTax = $('#taxForm')
 const formIncome = $('#incomeForm'), formTermination = $('#terminationForm'), formAbsence = $('#absenceForm')
 
