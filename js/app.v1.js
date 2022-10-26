@@ -382,7 +382,7 @@ formTax.on('submit', function (e) {
     if (!this.checkValidity()) {
         e.stopPropagation()
     } else {
-        const data = Object.fromEntries(formTax.serializeArray().map(({name, value}) => [name, value]));
+        const data = Object.fromEntries(formTax.serializeArray().map(({name, value}) => [name, value]))
         const value = parseFloat(data.value_units), locale = data.tax_locale
         const units = parseInt(data.units_visited), valueUnit = parseFloat((value / units).toFixed(2))
         let taxe = 0
@@ -394,9 +394,7 @@ formTax.on('submit', function (e) {
         if  (taxe !== 0) {
             $('#taxValue').html(taxe)
             success.removeClass('d-none')
-        } else{
-            error.removeClass('d-none')
-        }
+        } else error.removeClass('d-none')
 
         $('#calculateTaxBtn').html('Atualizar')
     }
@@ -447,18 +445,29 @@ formTermination.on('submit', function (e) {
     if (!this.checkValidity()) {
         e.stopPropagation()
     } else {
-        const data = Object.fromEntries(formTermination.serializeArray().map(({name, value}) => [name, value]));
-        const daysWorked = parseInt(data.days_worked);
-        const monthsWorked = {
-            christmas_bonus: (daysWorked % 30 >= 15) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30),
-            vacation: (daysWorked % 30 >= 14) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30),
+        const calcError = $('#calcTerminationError'), incomeTermination = $('#incomeTermination')
+        calcError.addClass('d-none')
+
+        const data = Object.fromEntries(formTermination.serializeArray().map(({name, value}) => [name, value]))
+        const start = new Date(data.start_day), end = new Date(data.end_day)
+        const diffInMs = end - start
+        const daysWorked = diffInMs / (1000 * 60 * 60 * 24)
+
+        $('#calculateTerminationBtn').html('Atualizar')
+
+        if (daysWorked < 15){
+            calcError.removeClass('d-none')
+            incomeTermination.addClass('d-none')
+            return false
         }
+
+        const monthsWorked = (daysWorked % 30 >= 15) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30)
 
         const salary = parseFloat((parseFloat(data.income_total) / daysWorked * 30).toFixed(2))
 
-        const vacation = salary * (monthsWorked.vacation / 12)
+        const vacation = salary * (monthsWorked / 12)
         const vacationBonus = parseFloat((vacation / 3).toFixed(2))
-        const christmasBonus = salary * (monthsWorked.christmas_bonus / 12)
+        const christmasBonus = vacation
         let total = vacation + vacationBonus + christmasBonus
 
         $('#salary').html(currency(salary))
@@ -468,6 +477,7 @@ formTermination.on('submit', function (e) {
         const irrf = calcIRRF(christmasBonus - inss.discount)
         total += inss.discount - irrf.discount
 
+        $('#daysWorked').html(daysWorked + ' dias')
         $('#vacation').html(currency(vacation))
         $('#vacationBonus').html(currency(vacationBonus))
         $('#incomeTerminationTotal').html(currency(total))
@@ -475,10 +485,9 @@ formTermination.on('submit', function (e) {
         $('#inssTermination').html(currency(inss.discount))
         $('#percentIrrfTermination').html(irrf.taxe.toLocaleString('pt-br'))
         $('#irrfTermination').html(currency(irrf.discount))
-        $('#incomeTermination').removeClass('d-none')
+        incomeTermination.removeClass('d-none')
 
         window.location.href = '#incomeTermination'
-        $('#calculateTerminationBtn').html('Atualizar')
     }
 
     formTermination.addClass('was-validated')

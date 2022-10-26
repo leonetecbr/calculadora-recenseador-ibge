@@ -500,20 +500,37 @@
                     </div>
                     <div class="content">
                         <h3 class="text-center mt-3">Tempo</h3>
-                        <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
-                            <label for="daysWorked" class="form-label">
-                                Dias trabalhados
-                                <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
-                                     title="Do dia que o primeiro contrato foi assinado até quando ele terminou.">
-                                    <i class="bi bi-info-circle-fill"></i>
-                                </sup>
-                            </label>
-                            <div class="input-group">
-                                <input type="number" class="form-control form-control-dark" id="daysWorked" min="14"
-                                       required placeholder="Dias trabalhados" name="days_worked">
-                                <span class="input-group-text input-group-text-dark bg-change bg-dark">dia(as)</span>
-                                <div class="invalid-feedback text-center">
-                                    Precisa ter trabalhado pelo menos 14 dias!
+                        <div class="d-sm-flex justify-content-around col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                            <div class="col-12 col-sm-5">
+                                <label for="startDay" class="form-label">
+                                    Início do contrato
+                                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                                         title="Do dia que o primeiro contrato foi assinado, o dia da sua contratação.">
+                                        <i class="bi bi-info-circle-fill"></i>
+                                    </sup>
+                                </label>
+                                <div class="mb-3">
+                                    <input type="date" class="form-control form-control-dark" id="startDay" required
+                                           name="start_day" min="2022-07-25" value="2022-07-25">
+                                    <div class="invalid-feedback text-center">
+                                        Menor data possível: 25/07/2022
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-5">
+                                <label for="endDay" class="form-label">
+                                    Fim do contrato
+                                    <sup class="text-muted fs-6" data-bs-placement="right" data-bs-toggle="tooltip"
+                                         title="Dia que a rescisão foi assinada, o dia da sua demissão.">
+                                        <i class="bi bi-info-circle-fill"></i>
+                                    </sup>
+                                </label>
+                                <div class="mb-3">
+                                    <input type="date" class="form-control form-control-dark" id="endDay" required
+                                          name="end_day">
+                                    <div class="invalid-feedback text-center">
+                                        Este campo é obrigatório!
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -538,6 +555,9 @@
                 <div class="d-grid col-7 mx-auto mt-3">
                     <button class="btn btn-dark btn-lg" id="calculateTerminationBtn">Calcular</button>
                 </div>
+                <div class="alert alert-danger text-center mt-3 d-none" id="calcTerminationError">
+                    Para ter direito a rescisão você precisa ter trabalhado pelo menos 15 dias.
+                </div>
                 <div class="row mt-4 pt-4 text-gray px-3 d-none income" id="incomeTermination">
                     <h3 class="mb-3">A receber</h3>
                     <ul class="list-group mb-3 pe-0">
@@ -547,6 +567,13 @@
                                 <span class="small text-muted">Sua remuneração média mensal.</span>
                             </div>
                             <span class="text-muted" id="salary">R$ 0</span>
+                        </li>
+                        <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Dias trabalhados</h6>
+                                <span class="small text-muted">Dias entre o começo e fim do contrato.</span>
+                            </div>
+                            <span class="text-muted" id="daysWorked">0 dias</span>
                         </li>
                         <li class="list-group-item bg-dark text-gray d-flex justify-content-between lh-sm">
                             <div>
@@ -626,6 +653,6 @@
 </footer>
 <script src="/apps/ibge/js/jquery.min.js"></script>
 <script src="/apps/ibge/js/bootstrap.bundle.min.js"></script>
-<script defer src="/apps/ibge/js/app.min.js"></script>
+<script defer src="/apps/ibge/js/app.v1.min.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 const prefix = 'ibge'
-const version = '0.0.1'
+const version = '1.0.0'
 const staticCacheName = prefix + '-v' + version
 const filesToCache = [
     '/apps/ibge',
@@ -9,7 +9,7 @@ const filesToCache = [
     '/apps/ibge/css/style.min.css',
     '/apps/ibge/css/bootstrap.min.css',
     '/apps/ibge/css/bootstrap-icons.css',
-    '/apps/ibge/js/app.min.js',
+    '/apps/ibge/js/app.v1.min.js',
     '/apps/ibge/js/bootstrap.bundle.min.js',
     '/apps/ibge/js/jquery.min.js',
     '/apps/ibge/manifest.json',
