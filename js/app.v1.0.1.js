@@ -451,7 +451,7 @@ formTermination.on('submit', function (e) {
         const data = Object.fromEntries(formTermination.serializeArray().map(({name, value}) => [name, value]))
         const start = new Date(data.start_day), end = new Date(data.end_day)
         const diffInMs = end - start
-        const daysWorked = diffInMs / (1000 * 60 * 60 * 24)
+        const daysWorked = diffInMs / (1000 * 60 * 60 * 24) - 1
 
         $('#calculateTerminationBtn').html('Atualizar')
 
@@ -472,6 +472,7 @@ formTermination.on('submit', function (e) {
 
         $('#salary').html(currency(salary))
         $('#christmasBonus').html(currency(christmasBonus))
+        $('#totalGrossTermination').html(currency(total))
 
         const inss = calcINSS(christmasBonus)
         const irrf = calcIRRF(christmasBonus - inss.discount)
