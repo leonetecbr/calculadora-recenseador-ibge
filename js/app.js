@@ -298,9 +298,8 @@ quizSample.on('change', () => (quizSample.val() === '0') ? $('#peopleSample').va
 formIncome.on('submit', function (e) {
     e.preventDefault()
 
-    if (!this.checkValidity()) {
-        e.stopPropagation()
-    } else {
+    if (!this.checkValidity()) e.stopPropagation()
+    else {
         const data = Object.fromEntries(formIncome.serializeArray().map(({name, value}) => [name, value]))
         let family = 0, income = 0, inss, irrf, taxe = data.taxe, value = {}
         const locale = data.locale, sons = data.number_sons, outRangeSalary = $('#outRangeSalary')
@@ -379,16 +378,18 @@ formTax.on('submit', function (e) {
     success.addClass('d-none')
     error.addClass('d-none')
 
-    if (!this.checkValidity()) {
-        e.stopPropagation()
-    } else {
+    if (!this.checkValidity()) e.stopPropagation()
+    else {
         const data = Object.fromEntries(formTax.serializeArray().map(({name, value}) => [name, value]))
         const value = parseFloat(data.value_units), locale = data.tax_locale
         const units = parseInt(data.units_visited), valueUnit = parseFloat((value / units).toFixed(2))
         let taxe = 0
 
         for (let i = 1; i <= 11; i++) {
-            if (taxes[i][locale].unit === valueUnit) taxe = i
+            if (taxes[i][locale].unit === valueUnit) {
+                taxe = i
+                break;
+            }
         }
 
         if  (taxe !== 0) {
@@ -405,9 +406,8 @@ formTax.on('submit', function (e) {
 formAbsence.on('submit', function (e) {
     e.preventDefault()
 
-    if (!this.checkValidity()) {
-        e.stopPropagation()
-    } else {
+    if (!this.checkValidity()) e.stopPropagation()
+    else {
         const data = Object.fromEntries(formAbsence.serializeArray().map(({name, value}) => [name, value]))
         const domicile = parseInt(data.domicile_occupied)
         let absence = {
@@ -442,16 +442,18 @@ formAbsence.on('submit', function (e) {
 formTermination.on('submit', function (e) {
     e.preventDefault()
 
-    if (!this.checkValidity()) {
-        e.stopPropagation()
-    } else {
+    if (!this.checkValidity()) e.stopPropagation()
+    else {
         const calcError = $('#calcTerminationError'), incomeTermination = $('#incomeTermination')
         calcError.addClass('d-none')
 
         const data = Object.fromEntries(formTermination.serializeArray().map(({name, value}) => [name, value]))
         const start = new Date(data.start_day), end = new Date(data.end_day)
-        const diffInMs = end - start
-        const daysWorked = diffInMs / (1000 * 60 * 60 * 24) - 1
+
+        // Subtrai um dia
+        end.setDate(end.getDate() - 1)
+
+        const daysWorked = (end - start) / (1000 * 60 * 60 * 24)
 
         $('#calculateTerminationBtn').html('Atualizar')
 
@@ -461,18 +463,36 @@ formTermination.on('submit', function (e) {
             return false
         }
 
-        const monthsWorked = (daysWorked % 30 >= 15) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30)
+        let monthsWorked = {
+            vacation: (daysWorked % 30 >= 15) ? Math.floor(daysWorked / 30) + 1 : Math.floor(daysWorked / 30),
+            christmasBonus: 1
+        }
+
+        if (start.getFullYear() === end.getFullYear()) monthsWorked.christmasBonus += end.getMonth() - start.getMonth()
+        else {
+            const diff = end.getFullYear() - start.getFullYear() - 1
+            monthsWorked.christmasBonus += 11 - start.getMonth()
+            monthsWorked.christmasBonus += diff * 12
+            monthsWorked.christmasBonus += end.getMonth() + 1
+        }
+
+        // Retira fração inferior a 15 dias
+        if (end.getUTCDate() <= 15) monthsWorked.christmasBonus--
+        const endMonth = new Date(start.valueOf())
+        endMonth.setUTCDate(endMonth.getUTCDate() + 15)
+        if (endMonth.getMonth() !== start.getMonth()) monthsWorked.christmasBonus--
 
         const salary = parseFloat((parseFloat(data.income_total) / daysWorked * 30).toFixed(2))
-
-        const vacation = salary * (monthsWorked / 12)
+        const vacation = salary * (monthsWorked.vacation / 12)
+        const christmasBonus = salary * (monthsWorked.christmasBonus / 12)
         const vacationBonus = parseFloat((vacation / 3).toFixed(2))
-        const christmasBonus = vacation
         let total = vacation + vacationBonus + christmasBonus
 
         $('#salary').html(currency(salary))
         $('#christmasBonus').html(currency(christmasBonus))
         $('#totalGrossTermination').html(currency(total))
+        $('.monthsWorked').html(monthsWorked.vacation)
+        $('#monthsWorked').html(monthsWorked.christmasBonus)
 
         const inss = calcINSS(christmasBonus)
         const irrf = calcIRRF(christmasBonus - inss.discount)
@@ -508,12 +528,10 @@ function calcINSS(income) {
     } else if (income <= 3641.03) {
         inss.taxe = 12
         inss.discount = 91.01
-    }
-    else if (income <= 7087.22){
+    } else if (income <= 7087.22){
         inss.taxe = 14
         inss.discount = 163
-    }
-    else inss.discount =  163 - 7087.22 * 0.14
+    } else inss.discount =  163 - 7087.22 * 0.14
 
     if (income <= 7087.22) inss.discount -= income / 100 * inss.taxe
 
