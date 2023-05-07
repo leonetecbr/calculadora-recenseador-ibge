@@ -1,5 +1,5 @@
 const prefix = 'ibge'
-const version = '1.0.2'
+const version = '1.1.0'
 const staticCacheName = prefix + '-v' + version
 const filesToCache = [
     '/apps/ibge',

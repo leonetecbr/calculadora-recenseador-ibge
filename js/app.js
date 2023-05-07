@@ -277,6 +277,102 @@ const taxes = {
             }
         }
     },
+    12: {
+        urban: {
+            unit: 1.58,
+            basic: {
+                people: 3.10,
+                quiz: 4.15
+            },
+            sample: {
+                people: 5.19,
+                quiz: 4.84
+            }
+        },
+        rural: {
+            unit: 1.77,
+            basic: {
+                people: 3.22,
+                quiz: 4.26
+            },
+            sample: {
+                people: 5.30,
+                quiz: 4.95
+            }
+        }
+    },
+    13: {
+        urban: {
+            unit: 1.74,
+            basic: {
+                people: 3.41,
+                quiz: 4.57
+            },
+            sample: {
+                people: 5.71,
+                quiz: 5.32
+            }
+        },
+        rural: {
+            unit: 1.95,
+            basic: {
+                people: 3.54,
+                quiz: 4.69
+            },
+            sample: {
+                people: 5.83,
+                quiz: 5.45
+            }
+        }
+    },
+    14: {
+        urban: {
+            unit: 1.91,
+            basic: {
+                people: 3.75,
+                quiz: 5.03
+            },
+            sample: {
+                people: 6.28,
+                quiz: 5.85
+            }
+        },
+        rural: {
+            unit: 2.15,
+            basic: {
+                people: 3.89,
+                quiz: 5.16
+            },
+            sample: {
+                people: 6.41,
+                quiz: 6.00
+            }
+        }
+    },
+    15: {
+        urban: {
+            unit: 2.10,
+            basic: {
+                people: 4.13,
+                quiz: 5.53
+            },
+            sample: {
+                people: 6.91,
+                quiz: 6.44
+            }
+        },
+        rural: {
+            unit: 2.37,
+            basic: {
+                people: 4.28,
+                quiz: 5.68
+            },
+            sample: {
+                people: 7.05,
+                quiz: 6.60
+            }
+        }
+    },
 }
 
 tabLink.on('hide.bs.tab', function () {
